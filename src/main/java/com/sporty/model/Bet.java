@@ -11,6 +11,5 @@ public record Bet(
         int driverId,
         BigDecimal amount,
         int odds,
-        BetStatus status,
         Instant createdAt) {
 }

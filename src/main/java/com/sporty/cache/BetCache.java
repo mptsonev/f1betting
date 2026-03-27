@@ -11,4 +11,6 @@ public interface BetCache {
     List<Bet> getBetsBySessionKey(int sessionKey);
 
     List<Bet> getBetsByUserId(int userId);
+
+    void clearBetsBySessionKey(int sessionKey);
 }

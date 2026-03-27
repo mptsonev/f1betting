@@ -26,5 +26,6 @@ public class F1Service {
     }
 
     public void simulateEventOutcome(F1SimulateEventRequestDTO settlementEvent) {
+        betService.settleBet(settlementEvent);
     }
 }

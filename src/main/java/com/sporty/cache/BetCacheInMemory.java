@@ -30,4 +30,9 @@ public class BetCacheInMemory implements BetCache {
                 .filter(b -> b.userId() == userId)
                 .toList();
     }
+
+    @Override
+    public void clearBetsBySessionKey(int sessionKey) {
+        bets.removeIf(b -> b.sessionKey() == sessionKey);
+    }
 }

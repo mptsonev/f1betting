@@ -6,11 +6,11 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.sporty.cache.BetCacheInMemory;
+import com.sporty.cache.BetCache;
 import com.sporty.dto.F1BetRequestDTO;
 import com.sporty.dto.F1BetResponseDTO;
+import com.sporty.dto.F1SimulateEventRequestDTO;
 import com.sporty.model.Bet;
-import com.sporty.model.BetStatus;
 import com.sporty.model.DriverMarketEntry;
 
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class BetService {
 
-    private final BetCacheInMemory betCache;
+    private final BetCache betCache;
     private final BalanceService balanceService;
     private final EventsService eventsService;
 
@@ -42,7 +42,6 @@ public class BetService {
                 request.driverId(),
                 request.amount(),
                 marketEntry.odds(),
-                BetStatus.PENDING,
                 Instant.now());
 
         balanceService.updatePosition(request.userId(), request.amount().negate());
@@ -54,7 +53,18 @@ public class BetService {
                 bet.sessionKey(),
                 bet.driverId(),
                 bet.amount(),
-                bet.odds(),
-                bet.status().name());
+                bet.odds());
+    }
+
+    public void settleBet(F1SimulateEventRequestDTO settlementEvent) {
+        // get all bets for the session
+        var bets = betCache.getBetsBySessionKey(settlementEvent.sessionId());
+        for (var bet : bets) {
+            if (bet.driverId() == settlementEvent.winnerDriverId()) {
+                var payout = bet.amount().multiply(BigDecimal.valueOf(bet.odds()));
+                balanceService.updatePosition(bet.userId(), payout);
+            }
+        }
+        betCache.clearBetsBySessionKey(settlementEvent.sessionId());
     }
 }

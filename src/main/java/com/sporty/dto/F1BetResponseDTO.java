@@ -9,6 +9,5 @@ public record F1BetResponseDTO(
         int sessionKey,
         int driverId,
         BigDecimal amount,
-        int odds,
-        String status) {
+        int odds) {
 }
