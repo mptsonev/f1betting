@@ -1,0 +1,7 @@
+f1:
+  cache:
+    enabled: false
+
+openf1:
+  api:
+    base-url: https://api.openf1.org
