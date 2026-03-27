@@ -2,7 +2,7 @@ package com.sporty.cache;
 
 import java.util.List;
 
-import com.sporty.model.Driver;
+import com.sporty.model.DriverMarketEntry;
 import com.sporty.model.Session;
 
 public interface F1EventsCache {
@@ -11,5 +11,5 @@ public interface F1EventsCache {
 
     List<Session> getSessions();
 
-    List<Driver> getDriversForSession(int sessionKey);
+    List<DriverMarketEntry> getDriverMarketForSession(int sessionKey);
 }

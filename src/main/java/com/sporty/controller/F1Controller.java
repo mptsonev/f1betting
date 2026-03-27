@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sporty.dto.F1BetRequestDTO;
+import com.sporty.dto.F1BetResponseDTO;
 import com.sporty.dto.F1EventResponseDTO;
 import com.sporty.dto.F1SimulateEventRequestDTO;
 import com.sporty.service.F1Service;
@@ -32,8 +33,8 @@ public class F1Controller {
     }
 
     @PostMapping("bet")
-    public ResponseEntity<Void> placeBet(@RequestBody @Valid F1BetRequestDTO betRequest) {
-        return null;
+    public ResponseEntity<F1BetResponseDTO> placeBet(@RequestBody @Valid F1BetRequestDTO betRequest) {
+        return ResponseEntity.status(201).body(f1Service.placeBet(betRequest));
     }
 
     @PostMapping("simulate")
