@@ -15,7 +15,7 @@ mvn spring-boot:run
 
 The server starts on port `8080` by default. Override with the `SERVER_PORT` environment variable.
 
-On startup, **100 users (IDs 1-100) are created with a balance of 1000 each**. No registration required — just start betting.
+On startup, **100 users (IDs 1-100) are created with a balance of 100 each**. No registration required — just start betting.
 
 ## API Endpoints
 
@@ -50,7 +50,7 @@ POST /api/v1/f1/bet
 }
 ```
 
-- Users 1-100 are pre-loaded with a starting balance of 1000.
+- Users 1-100 are pre-loaded with a starting balance of 100.
 - Amount must be positive with up to 2 decimal places.
 - Odds are taken from the driver market for the given session (call list events first).
 - Balance is deducted immediately on bet placement.

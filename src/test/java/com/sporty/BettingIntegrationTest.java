@@ -53,21 +53,21 @@ class BettingIntegrationTest {
         MvcResult betResult = mockMvc.perform(post("/api/v1/f1/bet")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content("""
-                                {"userId": 1, "sessionKey": 9472, "driverId": 1, "amount": 100.00}
+                                {"userId": 1, "sessionKey": 9472, "driverId": 1, "amount": 10.00}
                                 """))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.userId").value(userId))
                 .andExpect(jsonPath("$.sessionKey").value(9472))
                 .andExpect(jsonPath("$.driverId").value(1))
-                .andExpect(jsonPath("$.amount").value(100.00))
+                .andExpect(jsonPath("$.amount").value(10.00))
                 .andExpect(jsonPath("$.odds").isNumber())
                 .andReturn();
 
         JsonNode betResponse = objectMapper.readTree(betResult.getResponse().getContentAsString());
         int odds = betResponse.get("odds").asInt();
 
-        // 3. Verify balance decreased by bet amount (1000 - 100 = 900)
-        assertThat(balanceService.getBalance(userId)).isEqualByComparingTo(new BigDecimal("900"));
+        // 3. Verify balance decreased by bet amount (100 - 10 = 90)
+        assertThat(balanceService.getBalance(userId)).isEqualByComparingTo(new BigDecimal("90"));
 
         // 4. Simulate event — Verstappen wins
         mockMvc.perform(post("/api/v1/f1/simulate")
@@ -77,8 +77,8 @@ class BettingIntegrationTest {
                                 """))
                 .andExpect(status().isOk());
 
-        // 5. Verify balance: 900 + (100 * odds) = 900 + payout
-        BigDecimal expectedBalance = new BigDecimal("900").add(new BigDecimal("100").multiply(BigDecimal.valueOf(odds)));
+        // 5. Verify balance: 90 + (10 * odds) = 90 + payout
+        BigDecimal expectedBalance = new BigDecimal("90").add(new BigDecimal("10").multiply(BigDecimal.valueOf(odds)));
         assertThat(balanceService.getBalance(userId)).isEqualByComparingTo(expectedBalance);
     }
 
@@ -90,7 +90,7 @@ class BettingIntegrationTest {
         mockMvc.perform(post("/api/v1/f1/bet")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content("""
-                                {"userId": 2, "sessionKey": 9472, "driverId": 1, "amount": 9999.00}
+                                {"userId": 2, "sessionKey": 9472, "driverId": 1, "amount": 999.00}
                                 """))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("Insufficient balance for user: 2"));
