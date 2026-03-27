@@ -28,8 +28,8 @@ public class F1Controller {
 
     @GetMapping("events")
     public ResponseEntity<List<F1EventResponseDTO>> listF1Events(@RequestParam(required = false) String sessionType,
-            @RequestParam(required = false) String year, @RequestParam(required = false) String country) {
-        return ResponseEntity.ok(f1Service.getF1Events(sessionType, year, country));
+            @RequestParam(required = false) String year, @RequestParam(required = false) String countryName) {
+        return ResponseEntity.ok(f1Service.getF1Events(sessionType, year, countryName));
     }
 
     @PostMapping("bet")
@@ -39,7 +39,8 @@ public class F1Controller {
 
     @PostMapping("simulate")
     public ResponseEntity<Void> simulateEventOutcome(@RequestBody @Valid F1SimulateEventRequestDTO simulateRequest) {
-        return null;
+        f1Service.simulateEventOutcome(simulateRequest);
+        return ResponseEntity.ok().build();
     }
 
 }

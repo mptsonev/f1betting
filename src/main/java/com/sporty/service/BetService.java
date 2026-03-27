@@ -2,6 +2,7 @@ package com.sporty.service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -66,5 +67,9 @@ public class BetService {
             }
         }
         betCache.clearBetsBySessionKey(settlementEvent.sessionId());
+    }
+
+    public List<Bet> getBetByUserId(int userId) {
+        return betCache.getBetsByUserId(userId);
     }
 }

@@ -32,7 +32,7 @@ public class F1EventsUpdateJob {
     @Scheduled(cron = "0 0 0 * * *", zone = "UTC")
     public void refreshCache() {
         log.info("Refreshing F1 events cache...");
-        List<Session> sessions = f1EventsClient.fetchSessions();
+        List<Session> sessions = f1EventsClient.fetchSessions(null, null, null);
         f1EventsCache.updateSessions(sessions);
         log.info("Cache refreshed with {} sessions. Drivers will be loaded on demand.", sessions.size());
     }

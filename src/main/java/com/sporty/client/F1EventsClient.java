@@ -7,7 +7,7 @@ import com.sporty.model.Session;
 
 public interface F1EventsClient {
 
-    List<Session> fetchSessions();
+    List<Session> fetchSessions(String sessionType, String year, String countryName);
 
     List<Driver> fetchDriversBySessionKey(int sessionKey);
 }

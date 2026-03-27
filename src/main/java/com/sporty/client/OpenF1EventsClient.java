@@ -34,9 +34,15 @@ public class OpenF1EventsClient implements F1EventsClient {
         }
 
         @Override
-        public List<Session> fetchSessions() {
+        public List<Session> fetchSessions(String sessionType, String year, String countryName) {
                 OpenF1SessionResponse[] response = executeRateLimited(() -> restClient.get()
-                                .uri("/v1/sessions")
+                                .uri(uriBuilder -> {
+                                        uriBuilder.path("/v1/sessions");
+                                        if (sessionType != null) uriBuilder.queryParam("session_type", sessionType);
+                                        if (year != null) uriBuilder.queryParam("year", year);
+                                        if (countryName != null) uriBuilder.queryParam("country_name", countryName);
+                                        return uriBuilder.build();
+                                })
                                 .retrieve()
                                 .body(OpenF1SessionResponse[].class));
 
