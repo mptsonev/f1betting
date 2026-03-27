@@ -24,7 +24,6 @@ public class F1EventsCacheInMemory implements F1EventsCache {
     @Override
     public void updateSessions(List<Session> sessions) {
         this.sessions = List.copyOf(sessions);
-        this.driversBySessionKey.clear();
     }
 
     @Override
