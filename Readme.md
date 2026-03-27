@@ -29,11 +29,11 @@ Returns F1 sessions with a driver market (driver name, ID, odds) for each event.
 
 **Query parameters** (all optional):
 
-| Parameter     | Example      | Description              |
-|---------------|--------------|--------------------------|
-| `sessionType` | `Race`       | Practice, Qualifying, Race, Sprint, etc. |
-| `year`        | `2024`       | 4-digit year             |
-| `countryName` | `Bahrain`    | Country name (case-insensitive) |
+| Parameter     | Example   | Description                              |
+| ------------- | --------- | ---------------------------------------- |
+| `sessionType` | `Race`    | Practice, Qualifying, Race, Sprint, etc. |
+| `year`        | `2024`    | 4-digit year                             |
+| `countryName` | `Bahrain` | Country name (case-insensitive)          |
 
 ### Place a Bet
 
@@ -46,7 +46,7 @@ POST /api/v1/f1/bet
   "userId": 1,
   "sessionKey": 9472,
   "driverId": 1,
-  "amount": 50.00
+  "amount": 50.0
 }
 ```
 
@@ -101,3 +101,13 @@ Returns the current balance for the given user.
 - Authentication and user management
 - Bet history endpoint with won/lost status tracking
 - Pagination on the events endpoint
+
+## AI Usage During Implementation
+
+Claude Code (Claude Opus) was used as a pair-programming assistant throughout development. I provided all technical direction and architectural decisions, while the AI accelerated implementation:
+
+- **Developer-led design** — I defined the project structure, chose the interface-based architecture, decided on in-memory caching over persistence, and directed the separation of concerns (e.g. extracting rate limiting into its own class hierarchy)
+- **Developer scaffolding** — key classes and interfaces were scaffolded by me, with the AI filling in implementations to match the provided contracts
+- **Iterative refinement** — I reviewed AI-generated code at each step, catching issues (e.g. unreliable fixed-schedule rate limiting, missing balance checks, random odds on every request instead of once) and directing the AI toward the correct approach
+- **AI-assisted implementation** — the AI handled boilerplate (DTOs, cache wiring, REST controller plumbing), wrote test stubs and integration tests, and generated the initial README structure
+- **Code review by developer** — all AI output was reviewed, with me rejecting overengineered solutions (e.g. simplifying the rate limit config from a generic `List<RateLimit>` to two direct methods) and ensuring the codebase stayed lean
