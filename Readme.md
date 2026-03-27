@@ -100,6 +100,4 @@ Returns the current balance for the given user.
 - Transactional bet settlement with failure recovery
 - Authentication and user management
 - Bet history endpoint with won/lost status tracking
-- WebSocket or SSE for live odds updates
 - Pagination on the events endpoint
-- Integration tests with WireMock for the OpenF1 API
